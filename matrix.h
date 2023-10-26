@@ -59,6 +59,10 @@ matrix_t* matrix_Id(size_t dim);
 // n*Id matrix initialisation
 matrix_t* matrix_nId(size_t dim, MATRIX_TYPE n);
 
+// getter and setter for element at (i,j)
+MATRIX_TYPE matrix_get(const matrix_t *m1, size_t i, size_t j);
+void matrix_set(matrix_t *m1, size_t i, size_t j, MATRIX_TYPE val);
+
 // deep copy of matrix (secure and unsecure)
 void matrix_copyto(matrix_t* dest, const matrix_t* src);
 void matrix_copytos(matrix_t* dest, const matrix_t* src);
