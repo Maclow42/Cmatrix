@@ -2,76 +2,103 @@
 
 #include <stddef.h>
 
-// we use row-major matrix_t structure
+#define MATRIX_TYPE float
+
+typedef enum{
+    ROW,
+    COLUMN
+}matrix_dir_t;
 
 typedef struct {
     size_t row;
     size_t col;
-    float *data;
+    MATRIX_TYPE* data;
 }matrix_t;
 
-//free m1
-void freematrix_t(matrix_t *m1);
+// matrix initialisation with random values
+matrix_t* matrix_init(size_t row, size_t col);
 
-//Create a matrix_t of 0 with row rows and col columns and return it
-matrix_t *matrix(size_t row, size_t col);
+// matrix initialisation with x
+matrix_t* matrix_of(size_t row, size_t col, MATRIX_TYPE x);
 
-//Shuffle m1 and m2 together
-void shuffle_matrix_tXY(matrix_t *m1, matrix_t *m2);
-void shuffle(matrix_t *m1, matrix_t *m2);
+// Id matrix initialisation
+matrix_t* matrix_Id(size_t row, size_t col);
+// n*Id matrix initialisation
+matrix_t* matrix_nId(size_t row, size_t col, MATRIX_TYPE n);
 
-//Create a matrix_t of x with row rows and col columns and return it
-matrix_t *matrix_tOf(size_t row, size_t col, float x);
+// deep copy of matrix (secure and unsecure)
+void matrix_copyto(matrix_t* dest, const matrix_t* src);
+void matrix_copytos(matrix_t* dest, const matrix_t* src);
+// return a deep copy of matrix
+matrix_t* matrix_getcpy(const matrix_t* src);
 
-//Print matrix_t m1
-void m_print(matrix_t *m1);
+// free matrix
+void matrix_free(matrix_t *m1);
 
-//Print name[](m1->row, m1->col)
-void m_printSize(char name[], matrix_t *m1);
+// matrix addition
+matrix_t *m_add(const matrix_t *m1, const matrix_t *m2);
+void m_addp(matrix_t *m1, const matrix_t *m2);
+void m_addt(const matrix_t *m1, const matrix_t *m2, matrix_t *result);
+void m_addts(const matrix_t *m1, const matrix_t *m2, matrix_t *result);
 
-//Return a copy of m1
-matrix_t *m_copy(matrix_t *m1);
-void m_copyTo(matrix_t *src, matrix_t *dest);
+// matrix scalar addition
+matrix_t* m_kadd(const matrix_t *m1, MATRIX_TYPE k);
+void m_kaddp(matrix_t *m1, MATRIX_TYPE k);
+void m_kaddt(const matrix_t *m1, MATRIX_TYPE k, matrix_t *result);
+void m_kaddts(const matrix_t *m1, MATRIX_TYPE k, matrix_t *result);
 
-//Sum m1 and m2 and return the result
-matrix_t *m_add(matrix_t *m1, matrix_t *m2);
-void m_add_Place(matrix_t *m1, matrix_t *m2);
+// matrix subtraction
+matrix_t *m_sub(const matrix_t *m1, const matrix_t *m2);
+void m_subp(matrix_t *m1, const matrix_t *m2);
+void m_subt(const matrix_t *m1, const matrix_t *m2, matrix_t *result);
+void m_subts(const matrix_t *m1, const matrix_t *m2, matrix_t *result);
 
-//Add a column matrix_t m2 to m1 and return the result
-matrix_t *m_addColumn(matrix_t *m1, matrix_t *m2);
-void m_addColumn_Place(matrix_t *m1, matrix_t *m2);
+// matrix scalar subtraction
+matrix_t* m_ksub(const matrix_t *m1, MATRIX_TYPE k);
+void m_ksubp(matrix_t *m1, MATRIX_TYPE k);
+void m_ksubt(const matrix_t *m1, MATRIX_TYPE k, matrix_t *result);
+void m_ksubts(const matrix_t *m1, MATRIX_TYPE k, matrix_t *result);
 
-//Sum all elements of m1 with k and return the result
-matrix_t *m_scalarSum(matrix_t *m1, float k);
-void m_scalarSum_Place(matrix_t *m1, float k);
+// matrix multiplication
+matrix_t* m_mul(const matrix_t *m1, const matrix_t *m2);
+void m_mult(const matrix_t *m1, const matrix_t *m2, matrix_t *result);
+void m_mults(const matrix_t *m1, const matrix_t *m2, matrix_t *result);
 
-//Substract m2 to m1 and return the result
-matrix_t *m_sub(matrix_t *m1, matrix_t *m2);
-void m_sub_Place(matrix_t *m1, matrix_t *m2);
+// matrix power
+matrix_t* m_pow(const matrix_t *m1, size_t n);
 
-//Multiply m1 by k and return the result
-matrix_t *m_scalarProd(matrix_t *m1, float k);
-void m_scalarProd_Place(matrix_t *m1, float k);
+// matrix scalar multiplication
+matrix_t* m_kmul(const matrix_t *m1, MATRIX_TYPE k);
+void m_kmulp(matrix_t *m1, MATRIX_TYPE k);
+void m_kmult(const matrix_t *m1, MATRIX_TYPE k, matrix_t *result);
+void m_kmults(const matrix_t *m1, MATRIX_TYPE k, matrix_t *result);
 
-//Multiply m1 by m2 and return the result
-matrix_t *m_mul(matrix_t *m1, matrix_t *m2);
+// matrix scalar division
+matrix_t* m_kdiv(const matrix_t *m1, MATRIX_TYPE k);
+void m_kdivp(matrix_t *m1, MATRIX_TYPE k);
+void m_kdivt(const matrix_t *m1, MATRIX_TYPE k, matrix_t *result);
+void m_kdivts(const matrix_t *m1, MATRIX_TYPE k, matrix_t *result);
 
-//Multiply m1 and m2 terms by terms and return the result
-matrix_t *m_LineBLineMul(matrix_t *m1, matrix_t *m2);
-void m_LineBLine_Place(matrix_t *m1, matrix_t *m2);
+// matrix scalar product
+MATRIX_TYPE *m_dot(const matrix_t *m1, const matrix_t *m2);
 
-//Return the transposed matrix_t of m1
-matrix_t *m_transpose(matrix_t *m1);
+// matrix transposition
+matrix_t *m_transp(const matrix_t *m1);
+void m_transpt(const matrix_t *m1, matrix_t *result);
+void m_transpts(const matrix_t *m1, matrix_t *result);
 
-//Apply function f on all elements of m1 and return the result
-matrix_t *m_apply(float (*f)(float), matrix_t *m1);
-void m_apply_Place(float (*f)(float), matrix_t *m2);
+// matrix sum following a direction
+matrix_t *m_sumfd(const matrix_t *m1, matrix_dir_t dir);
+void m_sumfdt(const matrix_t *m1, matrix_t *result, matrix_dir_t dir);
+void m_sumfdts(const matrix_t *m1, matrix_t *result, matrix_dir_t dir);
 
-//Return the column matrix_t containing the sum of all the elements on each line of m1
-matrix_t *m_horizontalSum(matrix_t *m1);
+// matrix multiplication following a direction
+matrix_t *m_mulfd(const matrix_t *m1, matrix_dir_t dir);
+void m_mulfdt(const matrix_t *m1, matrix_t *result, matrix_dir_t dir);
+void m_mulfdts(const matrix_t *m1, matrix_t *result, matrix_dir_t dir);
 
-//Return the line matrix_t containing the sum of all the elements on each column of m1
-matrix_t *m_verticalSum(matrix_t *m1);
-
-//Return the sum of all the elements on each column of m1
-float m_sum(matrix_t *m1);
+// matrix apply function to all elements
+matrix_t *m_apply(const matrix_t *m1, MATRIX_TYPE (*f)(MATRIX_TYPE));
+void m_applyp(const matrix_t *m1, MATRIX_TYPE (*f)(MATRIX_TYPE));
+void m_applyt(const matrix_t *m1, matrix_t *result, MATRIX_TYPE (*f)(MATRIX_TYPE));
+void m_applyts(const matrix_t *m1, matrix_t *result, MATRIX_TYPE (*f)(MATRIX_TYPE));
