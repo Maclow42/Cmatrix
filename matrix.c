@@ -6,28 +6,28 @@
 #include "matrix.h"
 
 
-void freeMatrix(matrix *m1)
+void freematrix_t(matrix_t *m1)
 {
     free(m1->data);
     free(m1);
 }
 
 
-matrix *Matrix(size_t row, size_t col)
+matrix_t *matrix(size_t row, size_t col)
 {
-    matrix *m = malloc(sizeof(matrix));
+    matrix_t *m = malloc(sizeof(matrix_t));
     m->row = row;
     m->col = col;
     m->data = malloc(m->row * m->col * sizeof(float));
     if (!m->data) {
-        freeMatrix(m);
+        freematrix_t(m);
         return NULL;
     }
 
     return m;
 }
 
-void shuffle_matrixXY(matrix *m1, matrix *m2)
+void shuffle_matrix_tXY(matrix_t *m1, matrix_t *m2)
 {
     srand(time(NULL));
     for(size_t i = 0; i < m1->row; i++)
@@ -50,7 +50,7 @@ void shuffle_matrixXY(matrix *m1, matrix *m2)
     }
 }
 
-void shuffle(matrix *m1, matrix *m2)
+void shuffle(matrix_t *m1, matrix_t *m2)
 {
     // Initialise le générateur de nombres aléatoires avec une graine aléatoire basée sur l'horloge du système
     srand(time(NULL));
@@ -75,9 +75,9 @@ void shuffle(matrix *m1, matrix *m2)
     }
 }
 
-matrix *MatrixOf(size_t row, size_t col, float x)
+matrix_t *matrix_tOf(size_t row, size_t col, float x)
 {
-    matrix *m = Matrix(row, col);
+    matrix_t *m = matrix(row, col);
 
     for(size_t i = 0; i < m->row * m->col; i++)
         m->data[i] = x;
@@ -85,7 +85,7 @@ matrix *MatrixOf(size_t row, size_t col, float x)
     return m;
 }
 
-void m_print(matrix *m1)
+void m_print(matrix_t *m1)
 {
     for(size_t i = 0; i < m1->row; i++)
     {
@@ -100,14 +100,14 @@ void m_print(matrix *m1)
     }
 }
 
-void m_printSize(char name[], matrix *m1)
+void m_printSize(char name[], matrix_t *m1)
 {
     printf("%s(%zu, %zu)\n", name, m1->row, m1->col);
 }
 
-matrix *m_copy(matrix *m1)
+matrix_t *m_copy(matrix_t *m1)
 {
-    matrix *copy = Matrix(m1->row, m1->col);
+    matrix_t *copy = matrix(m1->row, m1->col);
     if (!copy) {
         return NULL;
     }
@@ -118,7 +118,7 @@ matrix *m_copy(matrix *m1)
     return copy;
 }
 
-void m_copyTo(matrix *src, matrix *dest)
+void m_copyTo(matrix_t *src, matrix_t *dest)
 {
     if(src->col != dest->col || src->row != dest->row)
         errx(1, "copy_to : src and dest does not have the same sizes.");
@@ -127,7 +127,7 @@ void m_copyTo(matrix *src, matrix *dest)
         dest->data[i] = src->data[i];
 }
 
-void m_copyTo_destroy(matrix *src, matrix *dest)
+void m_copyTo_destroy(matrix_t *src, matrix_t *dest)
 {
     if(src->col != dest->col || src->row != dest->row)
         errx(1, "copy_to : src and dest does not have the same sizes.");
@@ -137,16 +137,16 @@ void m_copyTo_destroy(matrix *src, matrix *dest)
     src->data = NULL;
 }
 
-matrix *m_add(matrix *m1, matrix *m2)
+matrix_t *m_add(matrix_t *m1, matrix_t *m2)
 {
     //Add m2 to m1 and return the result
     
     if(m1->row != m2->row || m1->col != m2->col)
     {
-        errx(1, "Error sum: wrong dimension matrix\n");
+        errx(1, "Error sum: wrong dimension matrix_t\n");
     }
     
-    matrix *result = Matrix(m1->row, m1->col);
+    matrix_t *result = matrix(m1->row, m1->col);
     
     for(size_t i = 0; i < m2->row * m2->col; i++)
     {
@@ -156,13 +156,13 @@ matrix *m_add(matrix *m1, matrix *m2)
     return result;
 }
 
-void m_add_Place(matrix *m1, matrix *m2)
+void m_add_Place(matrix_t *m1, matrix_t *m2)
 {
     //Add m2 to m1 and return the result
     
     if(m1->row != m2->row || m1->col != m2->col)
     {
-        errx(1, "Error sum: wrong dimension matrix\n");
+        errx(1, "Error sum: wrong dimension matrix_t\n");
     }
     
     for(size_t i = 0; i < m2->row * m2->col; i++)
@@ -171,17 +171,17 @@ void m_add_Place(matrix *m1, matrix *m2)
     }
 }
 
-matrix *m_addColumn(matrix *m1, matrix *m2)
+matrix_t *m_addColumn(matrix_t *m1, matrix_t *m2)
 {
-    //Add a column matrix m2 to m1 and return the result
+    //Add a column matrix_t m2 to m1 and return the result
     //Each column Ci of result is the sum of the ith column of m1 with m2
     
     if(m1->row != m2->row || m2->col != 1)
     {
-        errx(1, "Error sum: wrong dimension matrix\n");
+        errx(1, "Error sum: wrong dimension matrix_t\n");
     }
     
-    matrix *result = Matrix(m1->row, m1->col);
+    matrix_t *result = matrix(m1->row, m1->col);
 
     for(size_t i = 0; i < m1->row; i++)
     {
@@ -194,14 +194,14 @@ matrix *m_addColumn(matrix *m1, matrix *m2)
     return result;
 }
 
-void m_addColumn_Place(matrix *m1, matrix *m2)
+void m_addColumn_Place(matrix_t *m1, matrix_t *m2)
 {
-    //Add a column matrix m2 to m1 and return the result
+    //Add a column matrix_t m2 to m1 and return the result
     //Each column Ci of result is the sum of the ith column of m1 with m2
     
     if(m1->row != m2->row || m2->col != 1)
     {
-        errx(1, "Error sum: wrong dimension matrix\n");
+        errx(1, "Error sum: wrong dimension matrix_t\n");
     }
 
     for(size_t i = 0; i < m1->row; i++)
@@ -213,11 +213,11 @@ void m_addColumn_Place(matrix *m1, matrix *m2)
     }
 }
 
-matrix *m_scalarSum(matrix *m1, float k)
+matrix_t *m_scalarSum(matrix_t *m1, float k)
 {
     //Sum all elements of m1 with k and return the result
     
-    matrix *result = Matrix(m1->row, m1->col);
+    matrix_t *result = matrix(m1->row, m1->col);
 
     for(size_t i = 0; i < m1->row * m1->col; i++)
     {
@@ -227,7 +227,7 @@ matrix *m_scalarSum(matrix *m1, float k)
     return result;
 }
 
-void m_scalarSum_Place(matrix *m1, float k)
+void m_scalarSum_Place(matrix_t *m1, float k)
 {
     //Sum all elements of m1 with k and return the result
 
@@ -237,14 +237,14 @@ void m_scalarSum_Place(matrix *m1, float k)
     }
 }
 
-matrix *m_sub(matrix *m1, matrix *m2)
+matrix_t *m_sub(matrix_t *m1, matrix_t *m2)
 {
     //Substract m2 to m1 and return the result
     
-    matrix *result = Matrix(m1->row, m2->col);
+    matrix_t *result = matrix(m1->row, m2->col);
 
     if(m1->row != m2->row || m1->col != m2->col)
-        errx(1, "Error sub: wrong dimension matrix");
+        errx(1, "Error sub: wrong dimension matrix_t");
 
     for(size_t i = 0; i < m2->row * m2->col; i++)
     {
@@ -254,12 +254,12 @@ matrix *m_sub(matrix *m1, matrix *m2)
     return result;
 }
 
-void m_sub_Place(matrix *m1, matrix *m2)
+void m_sub_Place(matrix_t *m1, matrix_t *m2)
 {
     //Substract m2 to m1 and return the result
 
     if(m1->row != m2->row || m1->col != m2->col)
-        errx(1, "Error sub: wrong dimension matrix");
+        errx(1, "Error sub: wrong dimension matrix_t");
 
     for(size_t i = 0; i < m2->row * m2->col; i++)
     {
@@ -268,11 +268,11 @@ void m_sub_Place(matrix *m1, matrix *m2)
 }
 
 
-matrix *m_scalarProd(matrix *m1, float k)
+matrix_t *m_scalarProd(matrix_t *m1, float k)
 {
     //Multiply m1 by k and return the result
     
-    matrix *result = Matrix(m1->row, m1->col);
+    matrix_t *result = matrix(m1->row, m1->col);
 
     for(size_t i = 0; i < m1->row * m1->col; i++)
             result->data[i] = m1->data[i] * k;
@@ -280,7 +280,7 @@ matrix *m_scalarProd(matrix *m1, float k)
     return result;
 }
 
-void m_scalarProd_Place(matrix *m1, float k)
+void m_scalarProd_Place(matrix_t *m1, float k)
 {
     //Multiply m1 by k and return the result
 
@@ -288,14 +288,14 @@ void m_scalarProd_Place(matrix *m1, float k)
             m1->data[i] = m1->data[i] * k;
 }
 
-matrix *m_mul(matrix *m1, matrix *m2)
+matrix_t *m_mul(matrix_t *m1, matrix_t *m2)
 {
     //Multiply m1 by m2 and return the result
     
     if(m1->col != m2->row)
-        errx(1, "Error mul: wrong dimension matrix");
+        errx(1, "Error mul: wrong dimension matrix_t");
 
-    matrix *result = Matrix(m1->row, m2->col);
+    matrix_t *result = matrix(m1->row, m2->col);
 
     for(size_t i = 0; i < m1->row; i++)
     {
@@ -313,15 +313,15 @@ matrix *m_mul(matrix *m1, matrix *m2)
     return result;
 }
 
-matrix *m_LineBLineMul(matrix *m1, matrix *m2)
+matrix_t *m_LineBLineMul(matrix_t *m1, matrix_t *m2)
 {
 	//Multiply m1 and m2 terms by terms and return the result
 	//For all (i, j) : result[i,j] = m1[i,j] * m2[i,j]
 	
     if(m1->row != m2->row || m1->col != m2->col)
-        errx(1, "Error LineBLineMul: wrong dimension matrix");
+        errx(1, "Error LineBLineMul: wrong dimension matrix_t");
 
-    matrix *result = Matrix(m1->row, m1->col);
+    matrix_t *result = matrix(m1->row, m1->col);
 
     for(size_t i = 0; i < m2->row * m2->col; i++)
     {
@@ -331,13 +331,13 @@ matrix *m_LineBLineMul(matrix *m1, matrix *m2)
     return result;
 }
 
-void m_LineBLineMul_Place(matrix *m1, matrix *m2)
+void m_LineBLineMul_Place(matrix_t *m1, matrix_t *m2)
 {
 	//Multiply m1 and m2 terms by terms and return the result
 	//For all (i, j) : result[i,j] = m1[i,j] * m2[i,j]
 	
     if(m1->row != m2->row || m1->col != m2->col)
-        errx(1, "Error LineBLineMul: wrong dimension matrix");
+        errx(1, "Error LineBLineMul: wrong dimension matrix_t");
 
     for(size_t i = 0; i < m2->row * m2->col; i++)
     {
@@ -345,11 +345,11 @@ void m_LineBLineMul_Place(matrix *m1, matrix *m2)
     }
 }
 
-matrix *m_transpose(matrix *m1)
+matrix_t *m_transpose(matrix_t *m1)
 {
-    //Return the transposed matrix of m1
+    //Return the transposed matrix_t of m1
 
-    matrix *T = Matrix(m1->col, m1->row);
+    matrix_t *T = matrix(m1->col, m1->row);
 
     for(size_t i = 0; i < m1->row; i++)
     {
@@ -362,11 +362,11 @@ matrix *m_transpose(matrix *m1)
     return T;
 }
 
-matrix *m_apply(float (*f)(float), matrix *m1)
+matrix_t *m_apply(float (*f)(float), matrix_t *m1)
 {
     //Apply function f on all elements of m1 and return the result
     
-    matrix *result = Matrix(m1->row, m1->col);
+    matrix_t *result = matrix(m1->row, m1->col);
 
     for(size_t i = 0; i < m1->row * m1->col; i++)
             result->data[i] = (*f)(m1->data[i]);
@@ -374,11 +374,11 @@ matrix *m_apply(float (*f)(float), matrix *m1)
     return result;
 }
 
-matrix *m_horizontalSum(matrix *m1)
+matrix_t *m_horizontalSum(matrix_t *m1)
 {
-    //Return the column matrix containing the sum of all the elements on each line of m1
+    //Return the column matrix_t containing the sum of all the elements on each line of m1
 
-    matrix *result = Matrix(m1->row, 1);
+    matrix_t *result = matrix(m1->row, 1);
 
     for(size_t i = 0; i < m1->row; i++)
     {
@@ -393,11 +393,11 @@ matrix *m_horizontalSum(matrix *m1)
     return result;
 }
 
-matrix *m_verticalSum(matrix *m1)
+matrix_t *m_verticalSum(matrix_t *m1)
 {
-    //Return the line matrix containing the sum of all the elements on each column of m1
+    //Return the line matrix_t containing the sum of all the elements on each column of m1
 
-    matrix *result = Matrix(1, m1->col);
+    matrix_t *result = matrix(1, m1->col);
 
     for(size_t j = 0; j < m1->col; j++)
     {
@@ -412,7 +412,7 @@ matrix *m_verticalSum(matrix *m1)
     return result;
 }
 
-float m_sum(matrix *m1)
+float m_sum(matrix_t *m1)
 {
     //Return the sum of all the elements on each column of m1
 
@@ -425,85 +425,6 @@ float m_sum(matrix *m1)
             result += m1->data[i*m1->col+j];
         }
     }
-
-    return result;
-}
-
-matrix *apply_softmax(matrix *m1)
-{
-    //Return the softmaxed vector computed with m1 
-
-    matrix *result = Matrix(m1->row, m1->col);
-
-    for(size_t j = 0; j < m1->col; j ++)
-    {
-        //Find the max for each vect
-        float max = m1->data[m1->col+j];
-        for(size_t i = 1; i < m1->row; i++)
-        {
-            if(m1->data[i*m1->col+j] > max)
-                max = m1->data[i*m1->col+j];
-        }
-
-        //Compute the exponential sum
-        float sum = 0;
-        for(size_t i = 0; i < m1->row; i++)
-        {
-            sum += expf(m1->data[i*m1->col+j] - max);
-        }
-
-        //Compute the probabilities
-        for(size_t i = 0; i < m1->row; i++)
-        {
-                result->data[i*result->col+j] = expf(m1->data[i*result->col+j] - max)/sum;
-        }
-    }
-
-    return result;
-}
-
-void m_normalDiv(matrix *m1)
-{
-    //Divide in place all datas in m1 by the biggest one
-    for(size_t j = 0; j < m1->col; j ++)
-    {
-        float max = m1->data[m1->col + j];
-        for(size_t i = 0; i < m1->row; i++)
-        {  
-            if(m1->data[i*m1->col+j] > max)
-                max = m1->data[i*m1->col+j];
-        }
-
-        if(max > 1)
-        {
-            for(size_t i = 0; i < m1->row; i++)
-                m1->data[i*m1->col+j] /= max;
-        }
-    }
-}
-
-float maxf(float x, float y)
-{
-    if(x > y)
-        return x;
-    return y;
-}
-
-matrix *apply_relu(matrix *m1)
-{
-    //Return the relued matrix computed with m1
-    
-    //m_normalDiv(m1);
-    matrix *result = m_copy(m1);
-
-    for(size_t i = 0; i < m1->row*m1->col; i++)
-    {
-        result->data[i] = maxf(m1->data[i], 0);
-    }
-
-    //m_print(result);
-
-    m_normalDiv(result);
 
     return result;
 }

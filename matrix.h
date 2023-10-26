@@ -2,88 +2,76 @@
 
 #include <stddef.h>
 
-// we use row-major matrix structure
+// we use row-major matrix_t structure
 
-typedef struct 
-{
+typedef struct {
     size_t row;
     size_t col;
     float *data;
-}matrix;
-
-float maxf(float a, float b);
+}matrix_t;
 
 //free m1
-void freeMatrix(matrix *m1);
+void freematrix_t(matrix_t *m1);
 
-//Create a matrix of 0 with row rows and col columns and return it
-matrix *Matrix(size_t row, size_t col);
+//Create a matrix_t of 0 with row rows and col columns and return it
+matrix_t *matrix(size_t row, size_t col);
 
 //Shuffle m1 and m2 together
-void shuffle_matrixXY(matrix *m1, matrix *m2);
-void shuffle(matrix *m1, matrix *m2);
+void shuffle_matrix_tXY(matrix_t *m1, matrix_t *m2);
+void shuffle(matrix_t *m1, matrix_t *m2);
 
-//Create a matrix of x with row rows and col columns and return it
-matrix *MatrixOf(size_t row, size_t col, float x);
+//Create a matrix_t of x with row rows and col columns and return it
+matrix_t *matrix_tOf(size_t row, size_t col, float x);
 
-//Print matrix m1
-void m_print(matrix *m1);
+//Print matrix_t m1
+void m_print(matrix_t *m1);
 
 //Print name[](m1->row, m1->col)
-void m_printSize(char name[], matrix *m1);
+void m_printSize(char name[], matrix_t *m1);
 
 //Return a copy of m1
-matrix *m_copy(matrix *m1);
-void m_copyTo(matrix *src, matrix *dest);
+matrix_t *m_copy(matrix_t *m1);
+void m_copyTo(matrix_t *src, matrix_t *dest);
 
 //Sum m1 and m2 and return the result
-matrix *m_add(matrix *m1, matrix *m2);
-void m_add_Place(matrix *m1, matrix *m2);
+matrix_t *m_add(matrix_t *m1, matrix_t *m2);
+void m_add_Place(matrix_t *m1, matrix_t *m2);
 
-//Add a column matrix m2 to m1 and return the result
-matrix *m_addColumn(matrix *m1, matrix *m2);
-void m_addColumn_Place(matrix *m1, matrix *m2);
+//Add a column matrix_t m2 to m1 and return the result
+matrix_t *m_addColumn(matrix_t *m1, matrix_t *m2);
+void m_addColumn_Place(matrix_t *m1, matrix_t *m2);
 
 //Sum all elements of m1 with k and return the result
-matrix *m_scalarSum(matrix *m1, float k);
-void m_scalarSum_Place(matrix *m1, float k);
+matrix_t *m_scalarSum(matrix_t *m1, float k);
+void m_scalarSum_Place(matrix_t *m1, float k);
 
 //Substract m2 to m1 and return the result
-matrix *m_sub(matrix *m1, matrix *m2);
-void m_sub_Place(matrix *m1, matrix *m2);
+matrix_t *m_sub(matrix_t *m1, matrix_t *m2);
+void m_sub_Place(matrix_t *m1, matrix_t *m2);
 
 //Multiply m1 by k and return the result
-matrix *m_scalarProd(matrix *m1, float k);
-void m_scalarProd_Place(matrix *m1, float k);
+matrix_t *m_scalarProd(matrix_t *m1, float k);
+void m_scalarProd_Place(matrix_t *m1, float k);
 
 //Multiply m1 by m2 and return the result
-matrix *m_mul(matrix *m1, matrix *m2);
+matrix_t *m_mul(matrix_t *m1, matrix_t *m2);
 
 //Multiply m1 and m2 terms by terms and return the result
-matrix *m_LineBLineMul(matrix *m1, matrix *m2);
-void m_LineBLine_Place(matrix *m1, matrix *m2);
+matrix_t *m_LineBLineMul(matrix_t *m1, matrix_t *m2);
+void m_LineBLine_Place(matrix_t *m1, matrix_t *m2);
 
-//Return the transposed matrix of m1
-matrix *m_transpose(matrix *m1);
+//Return the transposed matrix_t of m1
+matrix_t *m_transpose(matrix_t *m1);
 
 //Apply function f on all elements of m1 and return the result
-matrix *m_apply(float (*f)(float), matrix *m1);
-void m_apply_Place(float (*f)(float), matrix *m2);
+matrix_t *m_apply(float (*f)(float), matrix_t *m1);
+void m_apply_Place(float (*f)(float), matrix_t *m2);
 
-//Return the column matrix containing the sum of all the elements on each line of m1
-matrix *m_horizontalSum(matrix *m1);
+//Return the column matrix_t containing the sum of all the elements on each line of m1
+matrix_t *m_horizontalSum(matrix_t *m1);
 
-//Return the line matrix containing the sum of all the elements on each column of m1
-matrix *m_verticalSum(matrix *m1);
+//Return the line matrix_t containing the sum of all the elements on each column of m1
+matrix_t *m_verticalSum(matrix_t *m1);
 
 //Return the sum of all the elements on each column of m1
-float m_sum(matrix *m1);
-
-//Return the softmaxed vector computed with m1
-matrix *apply_softmax(matrix *m1);
-
-//Divide in place all datas in m1 by the biggest one
-void m_normalDiv(matrix *m1);
-
-//Return the relued matrix computed with m1
-matrix *apply_relu(matrix *m1);
+float m_sum(matrix_t *m1);
