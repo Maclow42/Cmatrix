@@ -14,7 +14,7 @@ matrix_t* matrix_init(size_t row, size_t col){
     matrix_t *result = malloc(sizeof(matrix_t));
     result->row = row;
     result->col = col;
-    result->data = malloc(result->row * result->col * sizeof(MATRIX_TYPE));
+    result->data = calloc(result->row * result->col, sizeof(MATRIX_TYPE));
     if (!result->data) {
         matrix_free(result);
         return NULL;
