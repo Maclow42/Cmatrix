@@ -55,9 +55,9 @@ matrix_t* matrix_init(size_t row, size_t col);
 matrix_t* matrix_of(size_t row, size_t col, MATRIX_TYPE x);
 
 // Id matrix initialisation
-matrix_t* matrix_Id(size_t row, size_t col);
+matrix_t* matrix_Id(size_t dim);
 // n*Id matrix initialisation
-matrix_t* matrix_nId(size_t row, size_t col, MATRIX_TYPE n);
+matrix_t* matrix_nId(size_t dim, MATRIX_TYPE n);
 
 // deep copy of matrix (secure and unsecure)
 void matrix_copyto(matrix_t* dest, const matrix_t* src);
