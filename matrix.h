@@ -1,5 +1,38 @@
 #pragma once
 
+/**
+ * @file matrix_operations.h
+ * @brief Matrix Operations Library
+ * 
+ * This library provides a set of matrix operations implemented in C. Each function has multiple versions:
+ * - The basic version returns a new matrix as the result. ex: m_func()
+ * - The 'in-place' version appends 'p' at the end of the function name and modifies the imput matrix. ex: m_funcp()
+ * - The 'to' version appends 't' at the end of the function name and writes the result to a provided output matrix. ex: m_funct()
+ * - The 'to secure' version appends 'ts' at the end of the function name and securely allocates memory for the result. ex: m_functs()
+ * 
+ * Matrix Initialization:
+ * - matrix_init: Initialize a matrix with random values.
+ * - matrix_of: Initialize a matrix with a specific value.
+ * - matrix_Id: Initialize an identity matrix.
+ * - matrix_nId: Initialize a matrix with a scalar multiplied identity matrix.
+ * 
+ * Matrix Copy:
+ * - matrix_copyto: Copy matrix to another (in-place).
+ * - matrix_copytos: Copy matrix to another securely (in-place).
+ * - matrix_getcpy: Return a deep copy of the matrix.
+ * 
+ * Matrix Operations:
+ * - Various operations for addition, subtraction, scalar addition, scalar subtraction, multiplication, power,
+ *   scalar multiplication, scalar division, scalar product, transposition, sum along a direction, multiplication
+ *   along a direction, and element-wise function application.
+ * 
+ * Memory Management:
+ * - matrix_free: Free the memory occupied by a matrix.
+ * 
+ * Note: Please choose the appropriate function based on your specific requirements.
+ */
+
+
 #include <stddef.h>
 
 #define MATRIX_TYPE float
@@ -66,6 +99,9 @@ void m_mults(const matrix_t *m1, const matrix_t *m2, matrix_t *result);
 
 // matrix power
 matrix_t* m_pow(const matrix_t *m1, size_t n);
+void m_powp(matrix_t *m1, size_t n);
+void m_powt(const matrix_t *m1, size_t n, matrix_t *result);
+void m_powts(const matrix_t *m1, size_t n, matrix_t *result);
 
 // matrix scalar multiplication
 matrix_t* m_kmul(const matrix_t *m1, MATRIX_TYPE k);
